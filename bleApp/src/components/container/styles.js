@@ -27,5 +27,19 @@ export default StyleSheet.create({
         width: '40%',
         marginBottom: 10,
         margin: 10
+    },
+    loginImg: {
+        height: 150,
+        width: 150,
+        alignSelf: 'center',
+        marginTop: 50
+    },
+
+    title: {
+        fontSize: 21,
+        textAlign: 'center',
+        paddingTop: 20,
+        fontWeight: '500',
+        marginBottom: 50
     }
 })

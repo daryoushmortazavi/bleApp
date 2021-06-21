@@ -1,11 +1,11 @@
 import React, {useState, useContext} from 'react';
 import { Text, View, Image } from 'react-native';
-import AuthContainer from '../../components/container/authContainer';
-import Input from '../../components/input';
-import CustomButton from '../../components/customButton';
-import styles from './styles';
-import { GlobalContext } from '../../context/Provider';
-import loginAction from '../../context/actions/loginAction';
+import AuthContainer from '../components/container/authContainer';
+import Input from '../components/input';
+import CustomButton from '../components/customButton';
+import styles from '../components/container/styles';
+import { GlobalContext } from '../context/Provider';
+import loginAction from '../context/actions/loginAction';
 
 const Login = () => {
     const [uVal, onNameChange] = useState('');
@@ -26,7 +26,7 @@ const Login = () => {
 
     return (
         <AuthContainer>
-            <Image source={require('../../assets/images/login.png')} style={styles.loginImg}></Image>
+            <Image source={require('../assets/images/login.png')} style={styles.loginImg}></Image>
             <View>
                 <Text style={styles.title}>Welcome to RN-BLE APP</Text>
                 <Input 
