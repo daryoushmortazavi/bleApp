@@ -4,9 +4,9 @@ import styles from './styles';
 
 const DeviceContainer = ({isLoggedIn, style, children}) => {
     return (
-        <Modal visible={isLoggedIn} animationType='slide'>
+        // <Modal visible={isLoggedIn} animationType='slide'>
             <View style={styles.deviceWrapper}>{children}</View>
-        </Modal>
+        // </Modal>
     )
 };
 

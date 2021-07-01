@@ -7,11 +7,12 @@ import devicesAction from '../context/actions/devicesAction';
 import loginAction from '../context/actions/loginAction';
 import styles from '../components/container/styles';
 import DeviceContainer from '../components/container/deviceContainer';
+import { createStackNavigator } from '@react-navigation/stack';
 
 const Devices = () => {
     const [isLoading, setIsLoading] = useState(false);
     const manager = new BleManager();
-    const { deviceDispatch, deviceState: {devices}, authDispatch, authState: {isLoggedIn} } = useContext(GlobalContext);
+    const { deviceDispatch, deviceState: {devices}, authDispatch, authState: {isLoggedIn, data} } = useContext(GlobalContext);
 
     useEffect(() => {
         const subscription = manager.onStateChange(state => {
@@ -42,7 +43,7 @@ const Devices = () => {
                     // const isConnect = await device.connect(); // we can use this when we needed
                     resultedDevices.push(
                         <View style={styles.deviceHolder} key={device.id}>
-                            <Button title="disconnect" onPress={_ => disconnectDevice(device)} />
+                            <Button title="Connect" onPress={_ => disconnectDevice(device)} />
                             <View style={styles.info}>
                                 <Text>{device.id}</Text>
                                 <Text>{device.name}</Text>
@@ -82,18 +83,28 @@ const Devices = () => {
           }, 5000);
         }
     };
+
+    const HomeStack = createStackNavigator();
     return (
+        // <HomeStack.Navigator>
         <DeviceContainer isLoggedIn={isLoggedIn}>
-            <TouchableOpacity style={styles.logout} underlayColor='white' onPress={_ => {
-                if(devices.length){
-                    devices.forEach(device => {
-                        disconnectDevice(device);
-                    })
-                }
-                loginAction('LOGOUT')(authDispatch);
-            }}>
-                <Text>Logout</Text>
-            </TouchableOpacity>
+            <View style={styles.headerCont}>
+                <TouchableOpacity style={styles.logout} underlayColor='white' onPress={_ => {
+                    if(devices.length){
+                        devices.forEach(device => {
+                            disconnectDevice(device);
+                        })
+                    }
+                    loginAction('LOGOUT')(authDispatch);
+                }}>
+                    <Text>Logout</Text>
+                </TouchableOpacity>
+
+                <View>
+                    <Text style={styles.userName}>{data.userName}</Text>
+                </View>
+            </View>
+
             <View style={styles.actionBtn}>
                 <Button
                     title="Clear devices"
@@ -107,11 +118,13 @@ const Devices = () => {
                     <Button title="Scan devices" onPress={scanDevices} />
                 )}
             </View>
+            
             <ScrollView>
                 <View>{renderDevices()}</View>
             </ScrollView>
             
         </DeviceContainer>
+        // </HomeStack.Navigator>
     )
 };
 

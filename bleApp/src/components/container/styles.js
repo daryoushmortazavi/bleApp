@@ -41,5 +41,15 @@ export default StyleSheet.create({
         paddingTop: 20,
         fontWeight: '500',
         marginBottom: 50
+    },
+
+    userName: {
+        fontSize: 16
+    },
+    
+    headerCont: {
+        flexDirection: 'row',
+        justifyContent: 'space-between',
+        padding: 20
     }
 })
