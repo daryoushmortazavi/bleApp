@@ -1,37 +1,53 @@
-import React, {useState, useEffect, useContext, useCallback} from 'react';
+import React, {useState, useEffect, useContext} from 'react';
 import { BleManager, Device } from 'react-native-ble-plx';
 import { requestLocationPermission } from '../utils/permission';
 import { View, ActivityIndicator, Button, ScrollView, Text, TouchableOpacity } from 'react-native';
 import { GlobalContext } from '../context/Provider';
 import devicesAction from '../context/actions/devicesAction';
-import loginAction from '../context/actions/loginAction';
 import styles from '../components/container/styles';
 import DeviceContainer from '../components/container/deviceContainer';
-import { createStackNavigator } from '@react-navigation/stack';
+import {useFocusEffect, useNavigation} from '@react-navigation/native';
+import Header from './header';
+import axiosInstance from '../utils/axiosInstance';
+import envs from '../config/env';
 
 const Devices = () => {
     const [isLoading, setIsLoading] = useState(false);
     const manager = new BleManager();
-    const { deviceDispatch, deviceState: {devices}, authDispatch, authState: {isLoggedIn, data} } = useContext(GlobalContext);
+    const { deviceDispatch, deviceState: {devices, isScanning}, authDispatch, authState: {isLoggedIn, data} } = useContext(GlobalContext);
+    const {setOptions, toggleDrawer} = useNavigation();
 
     useEffect(() => {
         const subscription = manager.onStateChange(state => {
             if (state === "PoweredOn") {
               subscription.remove();
             }
-          }, true);
+        }, true);
+
+        setOptions({
+            headerStyle: {
+                backgroundColor: '#ccccf8'
+            },
+            headerTitle: () => <Header toggleDrawer={toggleDrawer} scanDevices={scanDevices} data={data}/>
+        });
     }, [])
 
-    const disconnectDevice = (async (device) => {
+    const addDevice = (async (device) => {
         try{
             // const isDeviceConnected = await device.isConnected();
             // console.log('device ', isDeviceConnected);
             // if (isDeviceConnected){
             //     device.cancelConnection();
             // }
-            devicesAction(device, 'DISCONNECT')(deviceDispatch);
+            devicesAction(device, 'ADD')(deviceDispatch);
+            console.log('ENV ', envs.BACKEND_URL);
+            axiosInstance.post('basicInfo', {dId: device.id, dName: device.name}).then(() => {
+                console.log('Info Saved Successfully!!')
+            }).catch((err) => {
+                console.log('Error ', err.stack);
+            })
         }catch(err){
-            console.error('Error in disconnectDevice ', err.stack);
+            console.error('Error in addDevice ', err.stack);
         }
     });
 
@@ -43,7 +59,7 @@ const Devices = () => {
                     // const isConnect = await device.connect(); // we can use this when we needed
                     resultedDevices.push(
                         <View style={styles.deviceHolder} key={device.id}>
-                            <Button title="Connect" onPress={_ => disconnectDevice(device)} />
+                            <Button title="Add" onPress={_ => addDevice(device)} />
                             <View style={styles.info}>
                                 <Text>{device.id}</Text>
                                 <Text>{device.name}</Text>
@@ -61,7 +77,8 @@ const Devices = () => {
     async function scanDevices(){
         const permission = await requestLocationPermission();
         if(permission){
-          setIsLoading(true);
+            devicesAction(true, 'SCANNING')(deviceDispatch);
+            setIsLoading(true)
     
           // scan devices
           manager.startDeviceScan(null, null, (error, scannedDevice) => {
@@ -79,16 +96,15 @@ const Devices = () => {
           // stop scanning devices after 5 seconds
           setTimeout(() => {
             manager.stopDeviceScan();
-            setIsLoading(false);
+            devicesAction(false, 'SCANNING')(deviceDispatch);
+            setIsLoading(false)
           }, 5000);
         }
     };
 
-    const HomeStack = createStackNavigator();
     return (
-        // <HomeStack.Navigator>
         <DeviceContainer isLoggedIn={isLoggedIn}>
-            <View style={styles.headerCont}>
+            {/* <View style={styles.headerCont}>
                 <TouchableOpacity style={styles.logout} underlayColor='white' onPress={_ => {
                     if(devices.length){
                         devices.forEach(device => {
@@ -103,20 +119,18 @@ const Devices = () => {
                 <View>
                     <Text style={styles.userName}>{data.userName}</Text>
                 </View>
-            </View>
+            </View> */}
 
             <View style={styles.actionBtn}>
-                <Button
+               {(devices.length !== 0) && <Button
                     title="Clear devices"
                     onPress={() => devicesAction('', 'CLEAR')(deviceDispatch)}
-                />
-                {isLoading ? (
+                />}
+                {isLoading && 
                     <View>
                         <ActivityIndicator color={'teal'} size={25} />
                     </View>
-                ) : (
-                    <Button title="Scan devices" onPress={scanDevices} />
-                )}
+                }
             </View>
             
             <ScrollView>
@@ -124,7 +138,6 @@ const Devices = () => {
             </ScrollView>
             
         </DeviceContainer>
-        // </HomeStack.Navigator>
     )
 };
 

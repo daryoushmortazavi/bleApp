@@ -17,7 +17,7 @@ const Login = () => {
     const loginToApp = () => {
         if(uVal && pVal){
             setErrorText('')
-            loginAction()(authDispatch);
+            loginAction('LOGIN_SUCCESS', {userName: uVal})(authDispatch);
         }else{
             setErrorText('These fields are required')
         }

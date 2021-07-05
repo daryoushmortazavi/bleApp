@@ -1,3 +1,4 @@
 export default {
-    devices: []
+    devices: [],
+    isScanning: false
 }

@@ -12,7 +12,7 @@ const deviceReducer = (state, {type, payload}) => {
             state.devices = [];
             return {...state};
 
-        case 'DISCONNECT':
+        case 'ADD':
             state.devices = state.devices.filter(dev => dev.id !== payload.id)
             // state.devices.forEach(device => {
             //     if(device.id === payload.id){
@@ -20,9 +20,12 @@ const deviceReducer = (state, {type, payload}) => {
             //         delete device;
             //     }
             // });
-            console.log('came ', state);
             
             return {...state};
+
+        case 'SCANNING':
+            state.isScanning = payload;
+            return state;
 
         default:
             return state;

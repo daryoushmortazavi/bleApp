@@ -50,6 +50,38 @@ export default StyleSheet.create({
     headerCont: {
         flexDirection: 'row',
         justifyContent: 'space-between',
-        padding: 20
+        width: "100%",
+        height: "100%"
+    },
+
+    rightWrapper: {
+        flexDirection: 'row',
+        alignItems: 'center',
+        justifyContent: 'space-between',
+        width: '30%',
+    },
+
+    menuIcon: {
+        flexDirection: 'row',
+        alignItems: 'center'
+    },
+
+    sideWrapper: {
+        width: '100%',
+        height: '100%',
+        marginTop: 70
+    },
+
+    textStyle: {
+        fontSize: 20,
+        color: '#5050f0'
+    },
+
+    smOpts : {
+        paddingVertical: 10,
+        flexDirection: 'row',
+        alignItems: 'center',
+        justifyContent: 'center',
+        backgroundColor: '#f8f8f8'
     }
 })

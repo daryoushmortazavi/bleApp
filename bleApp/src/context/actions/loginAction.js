@@ -1,12 +1,12 @@
-export default (type) => dispatch => {
+export default (type, payload) => dispatch => {
     if(type === 'LOGOUT'){
         dispatch({
             type
         })
-    }else{
+    }else if(type === 'LOGIN_SUCCESS'){
         dispatch({
-            type: 'LOGIN_SUCCESS'
+            type,
+            payload
         })
     }
-    
 }

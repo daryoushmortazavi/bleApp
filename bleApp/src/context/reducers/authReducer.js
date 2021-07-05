@@ -2,9 +2,11 @@ const authReducer = (state, {type, payload}) => {
 
     switch(type){
         case 'LOGIN_SUCCESS':
+            let {userName} = payload; 
             return {
                 ...state,
-                isLoggedIn: true
+                isLoggedIn: true,
+                data: { userName }
             };
 
         case 'LOGOUT':

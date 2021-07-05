@@ -9,8 +9,8 @@ const AppNavigation = () => {
     
     return (
         <NavigationContainer>
-            {/* {(isLoggedIn) ? <HomeNavigation/> : <AuthNavigation/>} */}
-            <DrawerNav />
+            {(isLoggedIn) ? <DrawerNav/> : <AuthNavigation/>}
+            {/* <DrawerNav /> */}
         </NavigationContainer>
     )
 }
