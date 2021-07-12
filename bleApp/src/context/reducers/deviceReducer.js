@@ -13,7 +13,7 @@ const deviceReducer = (state, {type, payload}) => {
             return {...state};
 
         case 'ADD':
-            state.devices = state.devices.filter(dev => dev.id !== payload.id)
+            // state.devices = state.devices.filter(dev => dev.id !== payload.id)
             // state.devices.forEach(device => {
             //     if(device.id === payload.id){
                     

@@ -10,6 +10,7 @@ import {useFocusEffect, useNavigation} from '@react-navigation/native';
 import Header from './header';
 import axiosInstance from '../utils/axiosInstance';
 import envs from '../config/env';
+import ToggleBtn from '../components/toggleBtn/index';
 
 const Devices = () => {
     const [isLoading, setIsLoading] = useState(false);
@@ -32,22 +33,29 @@ const Devices = () => {
         });
     }, [])
 
-    const addDevice = (async (device) => {
+    const handleDevice = (async (device, type) => {
         try{
             // const isDeviceConnected = await device.isConnected();
             // console.log('device ', isDeviceConnected);
             // if (isDeviceConnected){
             //     device.cancelConnection();
             // }
-            devicesAction(device, 'ADD')(deviceDispatch);
+            devicesAction(device, type)(deviceDispatch);
             console.log('ENV ', envs.BACKEND_URL);
-            axiosInstance.post('basicInfo', {dId: device.id, dName: device.name}).then(() => {
-                console.log('Info Saved Successfully!!')
+            let reqObj = {
+                toAdd: type === 'ADD'
+            };
+            if(type === 'ADD'){
+                reqObj['dId'] = device.id, 
+                reqObj['dName'] = device.name
+            }
+            axiosInstance.post('basicInfo', reqObj).then(() => {
+                console.log('Info Saved Successfully!!');
             }).catch((err) => {
-                console.log('Error ', err.stack);
+                console.log('Error ', err);
             })
         }catch(err){
-            console.error('Error in addDevice ', err.stack);
+            console.error('Error in handleDevice ', err);
         }
     });
 
@@ -59,7 +67,7 @@ const Devices = () => {
                     // const isConnect = await device.connect(); // we can use this when we needed
                     resultedDevices.push(
                         <View style={styles.deviceHolder} key={device.id}>
-                            <Button title="Add" onPress={_ => addDevice(device)} />
+                            <ToggleBtn handleDevice={handleDevice} device={device}/>
                             <View style={styles.info}>
                                 <Text>{device.id}</Text>
                                 <Text>{device.name}</Text>

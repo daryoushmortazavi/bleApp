@@ -1,5 +1,5 @@
 export default (payload, type) => dispatch => {
-    if(type === 'DEVICES' || type === 'ADD'){
+    if(type === 'DEVICES' || type === 'ADD' || type === 'REMOVE'){5
         dispatch({
             type,
             payload

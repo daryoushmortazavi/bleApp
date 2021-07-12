@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { View, TextInput, Text } from 'react-native';
 import colors from '../../assets/themes/colors';
 import styles from './styles';
@@ -6,6 +6,9 @@ import styles from './styles';
 const Input = ({onChangeText, securedTextEntry, icon, iconPosition, style, value, label, error, ...props}) => {
     const [isFocused, setIsFocused] = useState(false);
 
+    useEffect(() => {
+        console.log('came here ', securedTextEntry);
+    }, [])
 
     const getFlexPosition = () => {
         try{
@@ -63,10 +66,12 @@ const Input = ({onChangeText, securedTextEntry, icon, iconPosition, style, value
                 }]}>
                 <View>{icon && icon}</View>
                 <TextInput 
+                    // keyboardType={"default"}
+                    multiline={false}
                     style={[styles.textInput, style]} 
                     onChangeText={onChangeText} 
                     value={value}
-                    securedTextEntry={securedTextEntry}
+                    securedTextEntry={true}
                     onFocus = {_ => {
                         setIsFocused(true);
                     }}
