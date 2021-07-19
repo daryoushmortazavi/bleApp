@@ -10,7 +10,7 @@ import loginAction from '../context/actions/loginAction';
 const Login = () => {
     const [uVal, onNameChange] = useState('');
     const [pVal, onPassChange] = useState('');
-    const [errorText, setErrorText] = useState('')
+    const [errorText, setErrorText] = useState('');
     const { authDispatch, authState: {error, loading, data} } = useContext(GlobalContext);
 
 
@@ -43,6 +43,7 @@ const Login = () => {
                 />
                 <Input 
                     label="Password" 
+                    underlineColorAndroid = "transparent"
                     securedTextEntry = {true}
                     placeholder = 'Enter Password'
                     onChangeText={text => {

@@ -1,9 +1,10 @@
 import React from 'react';
 import { createDrawerNavigator } from "@react-navigation/drawer";
-import { DEVICES, SETTINGS, LOGOUT } from '../constants/routeNames';
+import { DEVICES, SETTINGS, PROFILE } from '../constants/routeNames';
 import DeviceNav from './DeviceNav';
-import Settings from '../screens/settings';
+import Settings from './SettingsNav';
 import SideMenu from '../screens/sideMenu';
+import Profile from '../screens/profile';
 
 const Drawer = createDrawerNavigator();
 
@@ -16,6 +17,7 @@ const DrawerNav = () => {
         }>
             <Drawer.Screen name={DEVICES} component={DeviceNav} />
             <Drawer.Screen name={SETTINGS} component={Settings} />
+            <Drawer.Screen name={PROFILE} component={Profile} />
         </Drawer.Navigator>
     )
 }

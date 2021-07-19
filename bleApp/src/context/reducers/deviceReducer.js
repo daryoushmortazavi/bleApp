@@ -27,6 +27,14 @@ const deviceReducer = (state, {type, payload}) => {
             state.isScanning = payload;
             return state;
 
+        case 'SET_COORDS':
+            state.coords = payload;
+            return {...state};
+
+        case 'REMOVE_DEVICE':
+            state.devices = state.devices.filter(dev => dev.id !== payload.id);
+            return {...state};
+
         default:
             return state;
     }

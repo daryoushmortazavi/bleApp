@@ -1,4 +1,5 @@
 export default {
     devices: [],
-    isScanning: false
+    isScanning: false,
+    coords: ''
 }

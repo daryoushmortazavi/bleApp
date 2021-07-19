@@ -1,22 +1,13 @@
 import { StyleSheet } from "react-native";
+import { color } from "react-native-reanimated";
 import colors from "../../assets/themes/colors";
 
 export default StyleSheet.create({
     wrapper: {
         padding: 50
     },
-    deviceHolder: {
-        backgroundColor: colors.grey,
-        marginTop: 12,
-        borderRadius: 5,
-        padding: 12,
-        flexDirection: 'row-reverse'
-    },
-    info: {
-        flex: 1
-    },
     actionBtn: {
-        width: '80%',
+        width: '40%',
         marginBottom: 10,
         alignSelf: 'center'
     },
@@ -57,7 +48,7 @@ export default StyleSheet.create({
     rightWrapper: {
         flexDirection: 'row',
         alignItems: 'center',
-        justifyContent: 'space-between',
+        justifyContent: 'flex-end',
         width: '30%',
     },
 
@@ -83,5 +74,33 @@ export default StyleSheet.create({
         alignItems: 'center',
         justifyContent: 'center',
         backgroundColor: '#f8f8f8'
+    },
+
+    profileWrapper: {
+        height: '100%'
+    },
+
+    pHeaderWrapper: {
+        backgroundColor: 'lightgrey',
+        height: '40%',
+        display: 'flex'
+    },
+
+    imageWrapper: {
+        flexDirection: 'row',
+        justifyContent: 'center',
+        alignItems: 'center',
+        height: '89%'
+    },
+
+    profileImg: {
+        width: 150,
+        height: 150,
+        borderRadius: 150
+    },
+
+    coordsIpt: {
+        backgroundColor: 'white',
+        color: 'black'
     }
 })

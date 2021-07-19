@@ -5,13 +5,12 @@ import envs from '../config/env';
 let headers = {};
 
 const axiosInstance = axios.create({
-  baseURL: 'http://192.168.56.1:4000/ble/',
+  baseURL: envs.BACKEND_URL,
   headers,
 });
 
 axiosInstance.interceptors.request.use(
   async (config) => {
-    console.log(config);
     const token = await AsyncStorage.getItem('token');
     if (token) {
       config.headers.Authorization = `Bearer ${token}`;

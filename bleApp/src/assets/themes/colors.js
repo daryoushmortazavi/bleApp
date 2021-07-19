@@ -6,5 +6,6 @@ export default {
     success: '#4cc9f0',
     grey: '#adb5bd',
     white: '#ffffff',
-    black: 'black'
+    black: 'black',
+    header: '#ccccf8'
 };

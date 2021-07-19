@@ -1,22 +1,30 @@
 import React, {useState, useEffect, useContext} from 'react';
-import { BleManager, Device } from 'react-native-ble-plx';
+import { BleManager } from 'react-native-ble-plx';
 import { requestLocationPermission } from '../utils/permission';
-import { View, ActivityIndicator, Button, ScrollView, Text, TouchableOpacity } from 'react-native';
+import { View, ActivityIndicator, Button, ScrollView, TextInput } from 'react-native';
 import { GlobalContext } from '../context/Provider';
 import devicesAction from '../context/actions/devicesAction';
 import styles from '../components/container/styles';
 import DeviceContainer from '../components/container/deviceContainer';
-import {useFocusEffect, useNavigation} from '@react-navigation/native';
+import {useNavigation} from '@react-navigation/native';
 import Header from './header';
+import Device from '../components/devices/index';
+import Modal from 'react-native-modal';
 import axiosInstance from '../utils/axiosInstance';
-import envs from '../config/env';
-import ToggleBtn from '../components/toggleBtn/index';
 
 const Devices = () => {
     const [isLoading, setIsLoading] = useState(false);
     const manager = new BleManager();
     const { deviceDispatch, deviceState: {devices, isScanning}, authDispatch, authState: {isLoggedIn, data} } = useContext(GlobalContext);
     const {setOptions, toggleDrawer} = useNavigation();
+    const [cordinatesVal, setCordinatesVal] = useState('');
+    const [isModalVisible, setModalVisible] = useState(false);
+    const [currentDevice, setCurrentDevice] = useState(null);
+
+    const toggleModal = () => {
+        setModalVisible(!isModalVisible);
+    };
+   
 
     useEffect(() => {
         const subscription = manager.onStateChange(state => {
@@ -29,50 +37,69 @@ const Devices = () => {
             headerStyle: {
                 backgroundColor: '#ccccf8'
             },
-            headerTitle: () => <Header toggleDrawer={toggleDrawer} scanDevices={scanDevices} data={data}/>
+            headerTitle: () => <Header toggleDrawer={toggleDrawer} data={data}/>
         });
     }, [])
 
-    const handleDevice = (async (device, type) => {
+    const addCoordinates = () => {
         try{
-            // const isDeviceConnected = await device.isConnected();
-            // console.log('device ', isDeviceConnected);
-            // if (isDeviceConnected){
-            //     device.cancelConnection();
-            // }
-            devicesAction(device, type)(deviceDispatch);
-            console.log('ENV ', envs.BACKEND_URL);
+            devicesAction(cordinatesVal, 'SET_COORDS')(deviceDispatch);
+            if(cordinatesVal){
+                handleDevice('ADD');
+            }
+            
+        }catch(err){
+            console.error('Error in addCoordinates ', err.stack);
+        }
+    }
+
+    const cancelModal = () => {
+        try{
+            
+            
+        }catch(err){
+            console.error('Error in cancelModal ', err.stack);
+        }
+    }
+
+    const handleDevice = (async (type) => {
+        try{
+            devicesAction(currentDevice, type)(deviceDispatch);
             let reqObj = {
-                toAdd: type === 'ADD'
+                toAdd: type === 'ADD',
+                dId: currentDevice.id
             };
             if(type === 'ADD'){
-                reqObj['dId'] = device.id, 
-                reqObj['dName'] = device.name
+                reqObj['dName'] = currentDevice.name;
+                reqObj['coords'] = cordinatesVal;
             }
-            axiosInstance.post('basicInfo', reqObj).then(() => {
+            axiosInstance.post('addTag', reqObj).then(() => {
                 console.log('Info Saved Successfully!!');
             }).catch((err) => {
-                console.log('Error ', err);
+                console.error('Error ', err);
             })
         }catch(err){
             console.error('Error in handleDevice ', err);
         }
     });
 
+    const handleToggle = (device, type) => {
+        try{
+            setCurrentDevice(device);
+            if(type === 'ADD') toggleModal();
+            else handleDevice();
+        }catch(err){
+            console.error('Error in handleToggle ', err.stack);
+        }
+    }
+
     const renderDevices = () => {
         try{
             let resultedDevices = [];
             if(devices.length){
                 devices.forEach(device => {
-                    // const isConnect = await device.connect(); // we can use this when we needed
                     resultedDevices.push(
-                        <View style={styles.deviceHolder} key={device.id}>
-                            <ToggleBtn handleDevice={handleDevice} device={device}/>
-                            <View style={styles.info}>
-                                <Text>{device.id}</Text>
-                                <Text>{device.name}</Text>
-                            </View>
-                        </View>
+                        <Device device={device} handleToggle={handleToggle}/>
                     )
                 });
             }
@@ -130,10 +157,15 @@ const Devices = () => {
             </View> */}
 
             <View style={styles.actionBtn}>
-               {(devices.length !== 0) && <Button
-                    title="Clear devices"
-                    onPress={() => devicesAction('', 'CLEAR')(deviceDispatch)}
-                />}
+               <Button
+                    title="Scan devices"
+                    onPress={() => {
+                        // devicesAction('', 'CLEAR')(deviceDispatch);
+                        if(!isScanning){
+                            scanDevices();
+                        }
+                    }}
+                />
                 {isLoading && 
                     <View>
                         <ActivityIndicator color={'teal'} size={25} />
@@ -142,9 +174,25 @@ const Devices = () => {
             </View>
             
             <ScrollView>
-                <View>{renderDevices()}</View>
+                {devices.length != 0 && <View>{renderDevices()}</View>}
             </ScrollView>
-            
+            <Modal isVisible={isModalVisible}>
+                <View>
+                    <TextInput style={styles.coordsIpt}
+                        onChangeText={(text) => {
+                            setCordinatesVal(text);
+                        }} 
+                        value={cordinatesVal}
+                    ></TextInput>
+                    <Button title="Cancel" onPress={() => {
+                        toggleModal();
+                    }} />
+                    <Button title="Add" onPress={() => {
+                        addCoordinates();
+                        toggleModal();
+                    }} />
+                </View>
+            </Modal>
         </DeviceContainer>
     )
 };

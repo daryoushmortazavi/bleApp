@@ -5,7 +5,7 @@ import MaterialIcon from 'react-native-vector-icons/MaterialIcons';
 import Ionicon from 'react-native-vector-icons/Ionicons';
 import { GlobalContext } from '../context/Provider';
 
-const Header = ({ toggleDrawer, scanDevices, data }) => {
+const Header = ({ toggleDrawer, data }) => {
     const { deviceDispatch, deviceState: {devices, isScanning} } = useContext(GlobalContext);
 
     return(
@@ -20,13 +20,11 @@ const Header = ({ toggleDrawer, scanDevices, data }) => {
                 <View>
                     <Text style={styles.userName}>{data.userName}</Text>
                 </View>
-                <TouchableOpacity onPress={() => {
-                    if(!isScanning){
-                        scanDevices();
-                    }
+                {/* <TouchableOpacity onPress={() => {
+                    
                 }}>
                     <Ionicon size={25} name="scan" />
-                </TouchableOpacity>
+                </TouchableOpacity> */}
             </View>
         </View>
     )
