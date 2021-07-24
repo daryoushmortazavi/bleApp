@@ -21,7 +21,7 @@ export default StyleSheet.create({
     },
     loginImg: {
         height: 150,
-        width: 150,
+        width: 250,
         alignSelf: 'center',
         marginTop: 50
     },

@@ -5,7 +5,7 @@ import envs from '../config/env';
 let headers = {};
 
 const axiosInstance = axios.create({
-  baseURL: envs.BACKEND_URL,
+  baseURL: 'http://192.168.0.19:4000/',
   headers,
 });
 

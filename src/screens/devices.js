@@ -73,7 +73,7 @@ const Devices = () => {
                 reqObj['dName'] = currentDevice.name;
                 reqObj['coords'] = cordinatesVal;
             }
-            axiosInstance.post('addTag', reqObj).then(() => {
+            axiosInstance.post('ble/addTag', reqObj).then(() => {
                 console.log('Info Saved Successfully!!');
             }).catch((err) => {
                 console.error('Error ', err);
