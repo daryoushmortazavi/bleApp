@@ -102,5 +102,14 @@ export default StyleSheet.create({
     coordsIpt: {
         backgroundColor: 'white',
         color: 'black'
-    }
+    },
+
+    input: {
+        borderWidth: 1,
+        borderColor: '#777',
+        padding: 10,
+        margin: 5,
+        width: 300,
+        height: 40,
+    },
 })

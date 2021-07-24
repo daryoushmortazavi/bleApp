@@ -6,7 +6,6 @@ import CustomButton from '../components/customButton';
 import styles from '../components/container/styles';
 import { GlobalContext } from '../context/Provider';
 import loginAction from '../context/actions/loginAction';
-import { globalStyles } from '../components/GlobalStyles';
 import FlatButton from '../components/MyButton';
 import axiosInstance from '../utils/axiosInstance';
 import { RESETPASS } from '../constants/routeNames';
@@ -47,8 +46,7 @@ const ForgetPassword = ({ navigation }) => {
                 <View style={styles.loginContainer}>
                     <View>
                         <Text> ForgetPassword </Text>
-                        <TextInput
-                            style={globalStyles.input} 
+                        <TextInput style={styles.input} 
                             keyboardType='email-address'
                             underlineColorAndroid = "transparent"
                             placeholder='Enter email'

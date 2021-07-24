@@ -6,7 +6,6 @@ import CustomButton from '../components/customButton';
 import styles from '../components/container/styles';
 import { GlobalContext } from '../context/Provider';
 import loginAction from '../context/actions/loginAction';
-import { globalStyles } from '../components/GlobalStyles';
 import FlatButton from '../components/MyButton';
 import axiosInstance from '../utils/axiosInstance';
 import { LOGIN } from '../constants/routeNames';
@@ -56,8 +55,7 @@ const ResetPassword = ({ navigation }) => {
                 <View style={styles.loginContainer}>
                     <View>
                         <Text> Reset Password </Text>
-                        <TextInput
-                            style={globalStyles.input} 
+                        <TextInput style={styles.input} 
                             keyboardType='email-address'
                             underlineColorAndroid = "transparent"
                             placeholder='Enter email'
@@ -67,8 +65,7 @@ const ResetPassword = ({ navigation }) => {
                             //onSubmitEditing={(val) => setEmail(val)}
                             onChangeText={(val) => setEmail(val)}
                         />
-                        <TextInput
-                            style={globalStyles.input} 
+                        <TextInput style={styles.input} 
                             underlineColorAndroid = "transparent"
                             placeholder='Enter Temporary Password'
                             placeholderTextColor = "#9a73ef"
@@ -78,8 +75,7 @@ const ResetPassword = ({ navigation }) => {
                             //onSubmitEditing={(val) => setPassword(val)}
                             onChangeText={(val) => setPassword(val)}
                         />
-                        <TextInput
-                            style={globalStyles.input} 
+                        <TextInput style={styles.input} 
                             underlineColorAndroid = "transparent"
                             placeholder='Enter New Password'
                             placeholderTextColor = "#9a73ef"

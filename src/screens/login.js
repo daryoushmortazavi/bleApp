@@ -7,7 +7,6 @@ import styles from '../components/container/styles';
 import { GlobalContext } from '../context/Provider';
 import loginAction from '../context/actions/loginAction';
 import { useNavigation } from '@react-navigation/native';
-import { globalStyles } from '../components/GlobalStyles';
 import FlatButton from '../components/MyButton';
 import axiosInstance from '../utils/axiosInstance';
 import { SIGNUP, FORGETPASS, RESETPASS } from '../constants/routeNames';
@@ -50,8 +49,7 @@ const Login = () => {
             <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
                 <View>
                     <Text style={styles.title}>Welcome to Indoor Navigation App</Text>
-                    <TextInput
-                        style={globalStyles.input} 
+                    <TextInput style={styles.input} 
                         keyboardType='email-address'
                         underlineColorAndroid = "transparent"
                         placeholder='Enter email'
@@ -63,8 +61,7 @@ const Login = () => {
                             setErrorText('')
                         }}
                     />    
-                    <TextInput
-                        style={globalStyles.input} 
+                    <TextInput style={styles.input} 
                         underlineColorAndroid = "transparent"
                         placeholder='Enter Password'
                         placeholderTextColor = "#9a73ef"

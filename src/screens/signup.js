@@ -6,7 +6,6 @@ import CustomButton from '../components/customButton';
 import styles from '../components/container/styles';
 import { GlobalContext } from '../context/Provider';
 import loginAction from '../context/actions/loginAction';
-import { globalStyles } from '../components/GlobalStyles';
 import FlatButton from '../components/MyButton';
 import axiosInstance from '../utils/axiosInstance';
 import { LOGIN } from '../constants/routeNames';
@@ -50,8 +49,7 @@ const Signup = ({ navigation }) => {
                 <View style={styles.loginContainer}>
                     <View>
                         <Text> Register </Text>
-                        <TextInput
-                            style={globalStyles.input} 
+                        <TextInput style={styles.input} 
                             underlineColorAndroid = "transparent"
                             placeholder='Enter username'
                             placeholderTextColor = "#9a73ef"
@@ -59,8 +57,7 @@ const Signup = ({ navigation }) => {
                             blurOnSubmit={false}
                             onChangeText={(val) => setUsername(val)}
                         />
-                        <TextInput
-                            style={globalStyles.input} 
+                        <TextInput style={styles.input} 
                             keyboardType='email-address'
                             underlineColorAndroid = "transparent"
                             placeholder='Enter email'
@@ -69,8 +66,7 @@ const Signup = ({ navigation }) => {
                             blurOnSubmit={false}
                             onChangeText={(val) => setEmail(val)}
                         />
-                        <TextInput
-                            style={globalStyles.input} 
+                        <TextInput style={styles.input} 
                             underlineColorAndroid = "transparent"
                             placeholder='Enter Password'
                             placeholderTextColor = "#9a73ef"
